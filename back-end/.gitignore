@@ -2,3 +2,7 @@ dist
 node_modules
 .env*
 !.env.example
+
+coverage
+
+recommendationsService.test.ts
