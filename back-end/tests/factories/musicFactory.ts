@@ -48,10 +48,23 @@ async function createMoreThanTenPosts(numberOfPosts: number) {
   return music;
 }
 
+async function createThreePostWithUpvotes() {
+  const upvotes = [240, 350, 100];
+  const isWrongLink = false;
+  for (let i = 0; i < upvotes.length; i++) {
+    const music = createMusicData(isWrongLink);
+    await prisma.recommendation.create({
+      data: { ...music, score: upvotes[i] },
+    });
+  }
+  return upvotes[1];
+}
+
 const musicFactory = {
   createMusicData,
   createMusicPost,
   createTwoMusicsPosts,
   createMoreThanTenPosts,
+  createThreePostWithUpvotes,
 };
 export default musicFactory;

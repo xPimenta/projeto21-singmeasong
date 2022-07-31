@@ -21,6 +21,7 @@ describe("Post musics suite", () => {
       where: { name: musicData.name },
     });
     expect(music).not.toBeNull();
+    expect(music.name).toBe(musicData.name);
   });
 
   it("given repeated name and youtube music link, fail to create", async () => {

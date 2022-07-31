@@ -33,6 +33,7 @@ describe("get musics tests suite", () => {
     const response = await agent.get("/recommendations");
     expect(response.body).toHaveLength(10);
     expect(response.body[0].name).toBe(music.name);
+    expect(response.body[0].youtubeLink).toBe(music.youtubeLink);
   });
 
   it("get music with wrong id", async () => {
@@ -54,6 +55,36 @@ describe("get musics tests suite", () => {
     expect(response.body.id).toBe(music.id);
     expect(response.body.name).toBe(music.name);
     expect(response.body.youtubeLink).toBe(music.youtubeLink);
+  });
+
+  it("get 2 top musics posts", async () => {
+    const maxUpvotes = await musicFactory.createThreePostWithUpvotes();
+    const response = await agent.get("/recommendations/top/2");
+    expect(response.body).toHaveLength(2);
+    expect(response.body[0].score).toBe(maxUpvotes);
+  });
+
+  it("get top musics with letter to amount, fail to get", async () => {
+    const response = await agent.get("/recommendations/top/a");
+    expect(response.status).toBe(500);
+  });
+
+  it("get top musics with amount greater than posts, return only existed posts", async () => {
+    const maxUpvotes = await musicFactory.createThreePostWithUpvotes();
+    const response = await agent.get("/recommendations/top/5");
+    expect(response.body).toHaveLength(3);
+    expect(response.body[0].score).toBe(maxUpvotes);
+  });
+
+  it("get top musics without amount, fail to connect", async () => {
+    const maxUpvotes = await musicFactory.createThreePostWithUpvotes();
+    const response = await agent.get("/recommendations/top");
+    expect(response.status).toBe(500);
+  });
+
+  it("get top musics without any post, return empty array", async () => {
+    const response = await agent.get("/recommendations/top/5");
+    expect(response.body).toHaveLength(0);
   });
 });
 
