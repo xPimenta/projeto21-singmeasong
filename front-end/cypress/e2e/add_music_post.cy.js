@@ -45,4 +45,24 @@ describe("add new music post", () => {
     cy.get("button").click();
     cy.wait("@addPost").its("response.statusCode").should("eq", 422);
   });
+
+  it("should add more than 10 posts, only shows 10 posts", () => {
+    cy.visit("http://localhost:3000/");
+
+    for (let i = 0; i < 15; i++) {
+      const musicData = {
+        name: faker.name.findName(),
+        youtubeLink: "https://youtu.be/ALZHF5UqnU4",
+      };
+      cy.get("input").first().type(musicData.name);
+      cy.get("input").last().type(musicData.youtubeLink);
+
+      cy.intercept("POST", "/recommendations").as("addPost");
+      cy.get("button").click();
+      cy.wait("@addPost");
+      cy.get('[data-identifier="vote-menu"]')
+        .should("have.length.gte", 1)
+        .and("have.length.lte", 10);
+    }
+  });
 });
