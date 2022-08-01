@@ -152,4 +152,24 @@ describe("recommendations service suite", () => {
     expect(recommendationRepository.updateScore).toBeCalledTimes(0);
     expect(recommendationRepository.remove).toBeCalledTimes(0);
   });
+
+  it("get musics posts (function get)", async () => {
+    jest
+      .spyOn(recommendationRepository, "findAll")
+      .mockImplementationOnce((): any => {
+        return "teste";
+      });
+
+    const promise = await recommendationService.get();
+    expect(promise).toBe("teste");
+  });
+
+  it("get top musics posts (function getTop)", async () => {
+    jest
+      .spyOn(recommendationRepository, "getAmountByScore")
+      .mockImplementationOnce((): any => "teste");
+
+    const promise = await recommendationService.getTop(4);
+    expect(promise).toBe("teste");
+  });
 });
