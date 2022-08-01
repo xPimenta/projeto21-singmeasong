@@ -86,6 +86,19 @@ describe("get musics tests suite", () => {
     const response = await agent.get("/recommendations/top/5");
     expect(response.body).toHaveLength(0);
   });
+
+  it("get random music with no posts registered, returns not found", async () => {
+    const response = await agent.get("/recommendations/random");
+    expect(response.status).toBe(404);
+  });
+
+  it("get random music, return one music", async () => {
+    const maxUpvotes = await musicFactory.createThreePostWithUpvotes();
+    const response = await agent.get("/recommendations/random");
+    expect(response.body.id).not.toBeUndefined();
+    expect(response.body.name).not.toBeUndefined();
+    expect(response.body.youtubeLink).not.toBeUndefined();
+  });
 });
 
 afterAll(async () => {

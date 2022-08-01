@@ -6,7 +6,7 @@ function createMusicData(wrong: boolean, name?: string) {
   return {
     name: name ? name : faker.name.findName(),
     youtubeLink: wrong
-      ? `https://www.test.com/${faker.random.alphaNumeric(10)}`
+      ? `https://www.dexctribe.com/${faker.random.alphaNumeric(10)}`
       : `https://www.youtube.com/${faker.random.alphaNumeric(10)}`,
   };
 }
