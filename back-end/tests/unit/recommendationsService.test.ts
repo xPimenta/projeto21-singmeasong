@@ -1,4 +1,5 @@
 import { jest } from "@jest/globals";
+import { response } from "express";
 import { recommendationRepository } from "../../src/repositories/recommendationRepository";
 import { recommendationService } from "../../src/services/recommendationsService.js";
 import musicFactory from "./../factories/musicFactory.js";
@@ -157,19 +158,57 @@ describe("recommendations service suite", () => {
     jest
       .spyOn(recommendationRepository, "findAll")
       .mockImplementationOnce((): any => {
-        return "teste";
+        return "test";
       });
 
     const promise = await recommendationService.get();
-    expect(promise).toBe("teste");
+    expect(promise).toBe("test");
   });
 
   it("get top musics posts (function getTop)", async () => {
     jest
       .spyOn(recommendationRepository, "getAmountByScore")
-      .mockImplementationOnce((): any => "teste");
+      .mockImplementationOnce((): any => "test");
 
     const promise = await recommendationService.getTop(4);
-    expect(promise).toBe("teste");
+    expect(promise).toBe("test");
+  });
+
+  it("get random music function with lte, return one music", async () => {
+    jest.spyOn(Math, "random").mockReturnValue(0.4);
+    jest
+      .spyOn(recommendationRepository, "findAll")
+      .mockImplementationOnce((): any => {
+        return [{ name: "test 1" }, { name: "test 2" }];
+      });
+
+    const promise = await recommendationService.getRandom();
+    expect(recommendationRepository.findAll).toBeCalledTimes(1);
+    expect(Math.random).toBeCalledTimes(2);
+    expect(promise.name).toBe("test 1");
+  });
+
+  it("get random music function with gt, return one music", async () => {
+    jest.spyOn(Math, "random").mockReturnValue(0.8);
+    jest
+      .spyOn(recommendationRepository, "findAll")
+      .mockImplementationOnce((): any => {
+        return [{ name: "test 1" }, { name: "test 2" }];
+      });
+
+    const promise = await recommendationService.getRandom();
+    expect(recommendationRepository.findAll).toBeCalledTimes(1);
+    expect(Math.random).toBeCalledTimes(2);
+    expect(promise.name).toBe("test 2");
+  });
+
+  it("get random music without music post, return error", async () => {
+    jest
+      .spyOn(recommendationRepository, "findAll")
+      .mockImplementation((): any => {
+        return [];
+      });
+    const promise = recommendationService.getRandom();
+    expect(promise).rejects.toEqual({ type: "not_found", message: "" });
   });
 });
