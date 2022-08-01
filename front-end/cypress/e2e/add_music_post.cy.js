@@ -23,4 +23,26 @@ describe("add new music post", () => {
 
     cy.url().should("equal", "http://localhost:3000/");
   });
+
+  it("should not add new music post with wrong link", () => {
+    const musicData = {
+      name: faker.name.findName(),
+      youtubeLink: "https://test.be/ALZHF5UqnU4",
+    };
+    cy.visit("http://localhost:3000/");
+    cy.get("input").first().type(musicData.name);
+    cy.get("input").last().type(musicData.youtubeLink);
+
+    cy.intercept("POST", "/recommendations").as("addPost");
+    cy.get("button").click();
+    cy.wait("@addPost").its("response.statusCode").should("eq", 422);
+  });
+
+  it("should not add new music post without input informations", () => {
+    cy.visit("http://localhost:3000/");
+
+    cy.intercept("POST", "/recommendations").as("addPost");
+    cy.get("button").click();
+    cy.wait("@addPost").its("response.statusCode").should("eq", 422);
+  });
 });

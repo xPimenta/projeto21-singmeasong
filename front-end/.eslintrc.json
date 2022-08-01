@@ -20,6 +20,8 @@
   "rules": {
     "react/react-in-jsx-scope": "off",
     "jest/expect-expect": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react/display-name": "off",
+    "no-unused-vars": "off"
   }
 }
