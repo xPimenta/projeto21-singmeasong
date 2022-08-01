@@ -32,9 +32,44 @@ describe("vote music post suite", () => {
     const response = await agent.post(`/recommendations/3/upvote`);
     expect(response.status).toBe(404);
   });
+
+  it("downvote music post, decrease one its score", async () => {
+    const isWrongLink = false;
+    const musicData = musicFactory.createMusicData(isWrongLink);
+    const music = await musicFactory.createMusicPost(musicData);
+    const response = await agent.post(`/recommendations/${music.id}/downvote`);
+    expect(response.status).toBe(200);
+    const musicUpdate = await prisma.recommendation.findUnique({
+      where: { id: music.id },
+    });
+    expect(musicUpdate.score).toBe(music.score - 1);
+  });
+
+  it("downvote music post with -5 score, delete post", async () => {
+    const isWrongLink = false;
+    const musicData = musicFactory.createMusicData(isWrongLink);
+    const music = await musicFactory.createMusicPostWithNegativeScore(
+      musicData
+    );
+    const response = await agent.post(`/recommendations/${music.id}/downvote`);
+    expect(response.status).toBe(200);
+    const musicUpdate = await prisma.recommendation.findUnique({
+      where: { id: music.id },
+    });
+    expect(musicUpdate).toBeNull();
+  });
+
+  it("downvote music post with letter as id, get error", async () => {
+    const response = await agent.post(`/recommendations/a/downvote`);
+    expect(response.status).toBe(500);
+  });
+
+  it("downvote music post with wrong id, get not found error", async () => {
+    const response = await agent.post(`/recommendations/3/downvote`);
+    expect(response.status).toBe(404);
+  });
 });
 
 afterAll(async () => {
   await prisma.$disconnect();
 });
-

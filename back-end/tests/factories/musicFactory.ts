@@ -24,6 +24,13 @@ async function createMusicPost(musicData: Music) {
   return { ...music };
 }
 
+async function createMusicPostWithNegativeScore(musicData: Music) {
+  const music = await prisma.recommendation.create({
+    data: { ...musicData, score: -5 },
+  });
+  return { ...music };
+}
+
 async function createTwoMusicsPosts() {
   const names = ["test 1", "test 2"];
   const musics: Music[] = [];
@@ -66,5 +73,6 @@ const musicFactory = {
   createTwoMusicsPosts,
   createMoreThanTenPosts,
   createThreePostWithUpvotes,
+  createMusicPostWithNegativeScore,
 };
 export default musicFactory;
