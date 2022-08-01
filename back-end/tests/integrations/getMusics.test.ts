@@ -99,6 +99,17 @@ describe("get musics tests suite", () => {
     expect(response.body.name).not.toBeUndefined();
     expect(response.body.youtubeLink).not.toBeUndefined();
   });
+
+  it("get random music with one music in database, return one music", async () => {
+    const isWrongLink = false;
+    const musicData = musicFactory.createMusicData(isWrongLink);
+    const music = await musicFactory.createMusicPost(musicData);
+    const response = await agent.get("/recommendations/random");
+    expect(response.body.id).toBe(music.id);
+    expect(response.body.name).toBe(music.name);
+    expect(response.body.youtubeLink).toBe(music.youtubeLink);
+    expect(response.body.score).toBe(music.score);
+  });
 });
 
 afterAll(async () => {
