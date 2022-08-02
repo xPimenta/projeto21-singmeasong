@@ -34,7 +34,7 @@ This project was created using TypeScript, [Node.js](https://nodejs.org/en/downl
 Start cloning the in you local machine:
 
 ```
-git clone https://github.com/Icaro-pavani/projeto21-singmeasong
+git clone https://github.com/xPimenta/projeto21-singmeasong
 ```
 
 After that, inside the [back-end]( https://github.com/xPimenta/projeto21-singmeasong/tree/main/back-end ) cloned folder, run the command below to install the project dependencies.
@@ -72,7 +72,7 @@ This project was created using React create app. So, make sure do you have the l
 Start cloning the in you local machine:
 
 ```
-git clone https://github.com/Icaro-pavani/projeto21-singmeasong
+git clone https://github.com/xPimenta/projeto21-singmeasong
 ```
 
 After that, inside the [front-end](https://github.com/xPimenta/projeto21-singmeasong/tree/main/front-end) cloned folder, run the command below to install the project dependencies.
