@@ -37,7 +37,7 @@ Start cloning the in you local machine:
 git clone https://github.com/Icaro-pavani/projeto21-singmeasong
 ```
 
-After that, inside the [back-end](https://github.com/Icaro-pavani/projeto21-singmeasong/tree/main/back-end) cloned folder, run the command below to install the project dependencies.
+After that, inside the [back-end]( https://github.com/xPimenta/projeto21-singmeasong/tree/main/back-end ) cloned folder, run the command below to install the project dependencies.
 
 ```
 npm install
@@ -75,7 +75,7 @@ Start cloning the in you local machine:
 git clone https://github.com/Icaro-pavani/projeto21-singmeasong
 ```
 
-After that, inside the [front-end](https://github.com/Icaro-pavani/projeto21-singmeasong/tree/main/front-end) cloned folder, run the command below to install the project dependencies.
+After that, inside the [front-end](https://github.com/xPimenta/projeto21-singmeasong/tree/main/front-end) cloned folder, run the command below to install the project dependencies.
 
 ```
 npm install
